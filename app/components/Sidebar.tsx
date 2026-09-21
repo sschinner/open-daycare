@@ -73,7 +73,7 @@ export function Sidebar({ active }: { active: SidebarActive }) {
             <div className="text-[12px] text-[#A89A8B]">{user.role}</div>
           </div>
           <a
-            href="#"
+            href="/login"
             title="Cerrar sesión"
             className="flex-none w-8 h-8 rounded-[10px] bg-[#F6ECDF] text-[#94887B] flex items-center justify-center"
           >
