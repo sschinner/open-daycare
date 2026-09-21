@@ -12,6 +12,18 @@ export type Allergy = {
   note: string;
 };
 
+export interface Room {
+  slug: string;
+  name: string;
+}
+
+export const rooms: Room[] = [
+  { slug: "soles", name: "Sala Soles" },
+  { slug: "lunas", name: "Sala Lunas" },
+  { slug: "estrellas", name: "Sala Estrellas" },
+  { slug: "nubes", name: "Sala Nubes" },
+];
+
 export interface Kid {
   slug: string;
   name: string;
@@ -23,6 +35,7 @@ export interface Kid {
   enrolled: string;
   allergy?: Allergy;
   parents: Parent[];
+  room?: string;
 }
 
 export const kids: Kid[] = [
