@@ -36,6 +36,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Working on features
 
 - Use the **`spec`** skill to design a new feature; specs go in `specs/` (folder does not exist yet). The **`spec-impl`** skill implements an approved spec.
+- Use the **`spec-check`** agent (`.opencode/agent/spec-check.md`) to verify the acceptance criteria of an implemented spec against the code. Run it after `spec-impl`, passing the spec name (e.g. `01-feed-home`). It reviews, fixes and marks the `## Criterios de aceptación` checks, using Context7 for current Next.js practices and Playwright to validate screens against the mockups. It never commits and asks for approval before writing changes to the spec.
 - Specs are written in the same language as the conversation (Spanish unless prompted otherwise).
 
 ## Reglas de código

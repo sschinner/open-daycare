@@ -1,6 +1,6 @@
 # Spec 01 — Feed home
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** Ninguna
 **Date:** 2026-09-21
 
@@ -80,13 +80,13 @@ Los valores de `kind` son en inglés (convención de código limpio). El compone
 
 ## Criterios de aceptación
 
-- [ ] `/` renderiza el feed idéntico al mockup a viewport ≥ 1024px: sidebar fijo a la izquierda, columna central máx. 760px, fondo `#F6ECDF`.
-- [ ] Los 3 posts (LOGRO, ACTIVIDAD con placeholder de foto, ANUNCIO) se renderizan desde `data/mock.ts` con badges, textos y contadores exactos del mockup.
-- [ ] En viewports < 1024px el sidebar desaparece y el feed usa el ancho completo.
-- [ ] Todos los enlaces a pantallas inexistentes son `href="#"` (no navegan, se ven igual).
-- [ ] `lang="es"`, metadata `title: "OpenDayCare"`; Fredoka + Nunito servidas por `next/font` sin `<link>` a Google Fonts.
-- [ ] No hay modo oscuro; el fondo es siempre `#F6ECDF`.
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] `/` renderiza el feed idéntico al mockup a viewport ≥ 1024px: sidebar fijo a la izquierda, columna central máx. 760px, fondo `#F6ECDF`.
+- [x] Los 3 posts (LOGRO, ACTIVIDAD con placeholder de foto, ANUNCIO) se renderizan desde `data/mock.ts` con badges, textos y contadores exactos del mockup.
+- [x] En viewports < 1024px el sidebar desaparece y el feed usa el ancho completo.
+- [x] Todos los enlaces a pantallas inexistentes son `href="#"` (no navegan, se ven igual).
+- [x] `lang="es"`, metadata `title: "OpenDayCare"`; Fredoka + Nunito servidas por `next/font` sin `<link>` a Google Fonts.
+- [x] No hay modo oscuro; el fondo es siempre `#F6ECDF`.
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 
 ## Decisiones tomadas y descartadas
 
