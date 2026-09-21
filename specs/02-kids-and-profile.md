@@ -1,6 +1,6 @@
 # Spec 02 — Niños y perfil
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 01
 **Date:** 2026-09-21
 
@@ -76,16 +76,17 @@ Convenciones (igual que spec 01): valores de dominio en inglés (`slug`, `status
 
 ## Criterios de aceptación
 
-- [ ] `/kids` renderiza idéntico a `ninos.dc.html` ≥1024px: header GESTIÓN/Niños, botón "Agregar niño", buscador, divisor "SALA SOLES · 8 niños", grilla de 2 columnas, fondo `#F6ECDF`.
-- [ ] Los 8 niños de la grilla salen desde `data/kids.ts` con avatar, nombre, "N años · X padres vinculados" (o "sin padres vinculados") exactos.
-- [ ] El badge se deriva en `KidCard`: sin padres → `VINCULAR`; alergia peanut/lactose → `MANÍ`/`LACTOSA`; si no → chevron `#CBB89F`. Estilos de badge viven en el componente, no en la data.
-- [ ] Hover de tarjeta: border `#F2A78E` + translateY(-2px).
-- [ ] El buscador no filtra (decorativo).
-- [ ] `/kids/mateo-fernandez` renderiza idéntico a `perfil-nino.dc.html`: volver, header + Editar, caja "Alergias y notas" de Mateo, filas nacimiento `12 mar 2022` / Sala `Soles` / Ingreso `feb 2025`, "Resumen del día", padres Lucía (`ACTIVA`) y Diego (`PENDIENTE`), "Vincular otro padre".
-- [ ] Los 8 slugs resuelven sin 404; cualquier otro slug → página 404 (`notFound()`).
-- [ ] Sidebar en las 3 rutas: "Feed" activo en `/`, "Niños" activo en `/kids` y `/kids/{slug}`; solo Feed, Niños y las tarjetas navegan de verdad; el resto es `href="#"`.
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] `/kids` renderiza idéntico a `ninos.dc.html` ≥1024px: header GESTIÓN/Niños, botón "Agregar niño", buscador, divisor "SALA SOLES · 8 niños", grilla de 2 columnas, fondo `#F6ECDF`.
+- [x] Los 8 niños de la grilla salen desde `data/kids.ts` con avatar, nombre, "N años · X padres vinculados" (o "sin padres vinculados") exactos.
+- [x] El badge se deriva en `KidCard`: sin padres → `VINCULAR`; alergia peanut/lactose → `MANÍ`/`LACTOSA`; si no → chevron `#CBB89F`. Estilos de badge viven en el componente, no en la data.
+- [x] Hover de tarjeta: border `#F2A78E` + translateY(-2px).
+- [x] El buscador no filtra (decorativo).
+- [x] `/kids/mateo-fernandez` renderiza idéntico a `perfil-nino.dc.html`: volver, header + Editar, caja "Alergias y notas" de Mateo, filas nacimiento `12 mar 2022` / Sala `Soles` / Ingreso `feb 2025`, "Resumen del día", padres Lucía (`ACTIVA`) y Diego (`PENDIENTE`), "Vincular otro padre".
+- [x] Los 8 slugs resuelven sin 404; cualquier otro slug → página 404 (`notFound()`).
+- [x] Sidebar en las 3 rutas: "Feed" activo en `/`, "Niños" activo en `/kids` y `/kids/{slug}`; solo Feed, Niños y las tarjetas navegan de verdad; el resto es `href="#"`.
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 - [ ] La data de los 7 niños sin mockup de perfil es coherente (edad ↔ nacimiento, ingreso en 2025, padres consistentes con el conteo de la tarjeta).
+  - FALLA: a la fecha de referencia del mockup ("martes 17 jun" = 17 jun 2025), Sofía (1 vs 2), Benjamín (2 vs 3), Valentina (1 vs 2) y Emma (1 vs 2) tienen edad↔nacimiento incoherente; además Valentina (ref ≥ dic 2025) y Lucas (ref < nov 2025) son mutuamente excluyentes en cualquier fecha. Ingreso 2025 y padres consistentes con el conteo sí cumplen.
 
 ## Decisiones tomadas y descartadas
 
