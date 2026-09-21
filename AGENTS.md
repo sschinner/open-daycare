@@ -9,3 +9,31 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## MCPs
 
 - Playwright Screenshots y cualquier cosa relacionada a Playwright tienen que estar en la carpeta .playwright-mcp.
+- Context7 Usaremos este MCP para trear la documentación actualizada del Framework.
+
+<!-- END:nextjs-agent-rules -->
+
+# Project notes
+
+## Stack
+
+- Next.js 16.3.5 (App Router) + React 19 + TypeScript strict. Tailwind v4 (CSS-first config in `app/globals.css` via `@import "tailwindcss"` — there is **no** `tailwind.config.*` file).
+- Path alias `@/*` maps to the repo root (`tsconfig.json`).
+- Target app: "open-daycare". UI copy is in **Spanish** — match it.
+
+## Commands
+
+- `npm run dev` — dev server (re-adds the Next.js agent-rules block above).
+- `npm run lint` — ESLint only (flat config, `eslint.config.mjs`).
+- `npm run build` — production build (performs type checking).
+- There is **no test framework and no test script** in this repo.
+
+## References (design sources, read-only)
+
+- `references/pantallas/*.dc.html` — generated standalone screen mockups; `references/screenshots/*.png` — screenshots. Use them as the UI source of truth for building screens.
+- Do **not** edit files under `references/`. They are generated (`references/pantallas/support.js` header); the `dc-runtime` generator is not vendored in this repo.
+
+## Working on features
+
+- Use the **`spec`** skill to design a new feature; specs go in `specs/` (folder does not exist yet). The **`spec-impl`** skill implements an approved spec.
+- Specs are written in the same language as the conversation (Spanish unless prompted otherwise).
