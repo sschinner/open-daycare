@@ -1,6 +1,6 @@
 # Spec 04 — Modal agregar niño
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 02
 **Date:** 2026-09-21
 
@@ -68,16 +68,16 @@ Los 8 niños existentes no llevan `room` (Sala Soles implícita, sin cambios). E
 
 ## Criterios de aceptación
 
-- [ ] En `/kids`, presionar "Agregar niño" abre el modal (overlay) con header Cancelar / Agregar niño / Guardar y los 5 campos con labels y placeholders del mockup (`Ej. Martina López`, `dd/mm/aaaa`, `Ej. Maní, Lactosa`, "Indicaciones, medicación, contactos…").
-- [ ] Guardar con Nombre Completo vacío o Fecha inválida muestra error inline en español bajo el campo + borde rojo y no cierra el modal; el error desaparece al corregir.
-- [ ] Guardar con los 3 obligatorios válidos cierra el modal y agrega la tarjeta a la grilla: inicial, color derivado, nombre, edad calculada, "0 padres → VINCULAR", sin navegar al perfil.
-- [ ] El conteo al lado de "SALA SOLES · N niños" incluye los agregados en memoria.
-- [ ] SALA es un `<select>` con las 4 salas de `data/kids.ts`, "Sala Soles" preseleccionada, con chevron que replica el mockup.
-- [ ] Fecha de nacimiento acepta solo `dd/mm/aaaa` (días y meses reales); Alergias y Notas médicas son texto libre opcional.
-- [ ] Cancelar, `Esc` o click en el fondo cierran el modal y lo dejan en blanco para la próxima apertura.
-- [ ] Recargar `/kids` elimina el niño agregado (sin persistencia).
-- [ ] No hay estilos inline (clases Tailwind arbitrarias) y ningún archivo bajo `references/` se modifica.
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] En `/kids`, presionar "Agregar niño" abre el modal (overlay) con header Cancelar / Agregar niño / Guardar y los 5 campos con labels y placeholders del mockup (`Ej. Martina López`, `dd/mm/aaaa`, `Ej. Maní, Lactosa`, "Indicaciones, medicación, contactos…").
+- [x] Guardar con Nombre Completo vacío o Fecha inválida muestra error inline en español bajo el campo + borde rojo y no cierra el modal; el error desaparece al corregir.
+- [x] Guardar con los 3 obligatorios válidos cierra el modal y agrega la tarjeta a la grilla: inicial, color derivado, nombre, edad calculada, "0 padres → VINCULAR", sin navegar al perfil.
+- [x] El conteo al lado de "SALA SOLES · N niños" incluye los agregados en memoria.
+- [x] SALA es un `<select>` con las 4 salas de `data/kids.ts`, "Sala Soles" preseleccionada, con chevron que replica el mockup.
+- [x] Fecha de nacimiento acepta solo `dd/mm/aaaa` (días y meses reales); Alergias y Notas médicas son texto libre opcional.
+- [x] Cancelar, `Esc` o click en el fondo cierran el modal y lo dejan en blanco para la próxima apertura.
+- [x] Recargar `/kids` elimina el niño agregado (sin persistencia).
+- [x] No hay estilos inline (clases Tailwind arbitrarias) y ningún archivo bajo `references/` se modifica.
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 
 ## Decisiones tomadas y descartadas
 
