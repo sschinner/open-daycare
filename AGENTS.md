@@ -37,3 +37,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Use the **`spec`** skill to design a new feature; specs go in `specs/` (folder does not exist yet). The **`spec-impl`** skill implements an approved spec.
 - Specs are written in the same language as the conversation (Spanish unless prompted otherwise).
+
+## Reglas de código
+
+- User código limpio, nombres, funciones, variables, etc. en inglés.
