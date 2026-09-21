@@ -7,14 +7,13 @@ function parentLabel(count: number): string {
   return `${count} padre${count === 1 ? "" : "s"} vinculado${count === 1 ? "" : "s"}`;
 }
 
-export function KidCard({ kid }: { kid: Kid }) {
+export function KidCard({ kid, static: isStatic = false }: { kid: Kid; static?: boolean }) {
   const badgeClass = "flex-none text-[11px] font-extrabold px-[9px] py-[5px] rounded-full";
+  const cardClass =
+    "flex items-center gap-[14px] min-w-0 bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] p-4 shadow-[0_4px_14px_-12px_rgba(120,90,60,.5)] hover:border-[#F2A78E] hover:-translate-y-0.5 transition";
 
-  return (
-    <Link
-      href={`/kids/${kid.slug}`}
-      className="flex items-center gap-[14px] min-w-0 bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] p-4 shadow-[0_4px_14px_-12px_rgba(120,90,60,.5)] hover:border-[#F2A78E] hover:-translate-y-0.5 transition"
-    >
+  const content = (
+    <>
       <div
         className="w-12 h-12 rounded-full font-display font-semibold text-[19px] flex items-center justify-center flex-none"
         style={{ backgroundColor: kid.avatarBg, color: kid.avatarText }}
@@ -38,6 +37,16 @@ export function KidCard({ kid }: { kid: Kid }) {
       ) : (
         <ChevronRightIcon className="flex-none text-[#CBB89F]" />
       )}
+    </>
+  );
+
+  if (isStatic) {
+    return <div className={cardClass}>{content}</div>;
+  }
+
+  return (
+    <Link href={`/kids/${kid.slug}`} className={cardClass}>
+      {content}
     </Link>
   );
 }
