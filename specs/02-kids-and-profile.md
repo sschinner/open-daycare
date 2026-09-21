@@ -71,7 +71,7 @@ Convenciones (igual que spec 01): valores de dominio en inglés (`slug`, `status
 4. **KidCard** — crear `app/components/KidCard.tsx`: tarjeta `Link → /kids/{slug}` con avatar (colores de la data), nombre `font-display`, línea edad·padres derivada, badge derivado o chevron; hover `border-[#F2A78E]` + `-translate-y-0.5`.
 5. **Página /kids** — `app/kids/page.tsx`: header "GESTIÓN · Niños", botón "Agregar niño" (`#`), buscador decorativo, divisor "SALA SOLES · 8 niños" (count desde `kids.length`), grilla `grid-cols-2 gap-[14px]` con `kids.map(KidCard)`. Ya se navega desde el menú.
 6. **KidProfile** — crear `app/components/KidProfile.tsx`: "Volver a Niños" (`/kids`), header (avatar 84px + nombre + "Editar" `#`), caja "Alergias y notas" solo si `allergy`, filas Fecha de nacimiento / Sala (`Soles`) / Ingreso, botón "Resumen del día" (`#`), tarjeta "PADRES VINCULADOS" con badge ACTIVA/PENDIENTE y "Vincular otro padre" (`#`); sin padres → se omite la lista.
-7. **Ruta /kids/{slug}** — `app/kids/[slug]/page.tsx`: `generateStaticParams` con los 8 slugs, `notFound()` si `getKidBySlug` no responde, render de `KidProfile`.
+7. **Ruta /kids/{slug}** — `app/kids/[slug]/page.tsx` (los corchetes son el nombre de la carpeta del segmento dinámico; no aparecen en la URL, que es `/kids/{slug}`): `generateStaticParams` con los 8 slugs, `notFound()` si `getKidBySlug` no responde, render de `KidProfile`.
 8. **Verificación** — `npm run lint`, `npm run build`, comparación visual de `/kids` contra `references/screenshots/ninos.png`/`ninos2.png` y del perfil contra `perfil-nino.dc.html` (Playwright / agent `spec-check`).
 
 ## Criterios de aceptación
