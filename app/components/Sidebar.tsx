@@ -9,14 +9,16 @@ import {
   UsersIcon,
 } from "./icons";
 
-const navItems = [
-  { label: "Feed", icon: HomeIcon, active: true },
-  { label: "Niños", icon: UsersIcon, active: false },
-  { label: "Avisos", icon: BellIcon, active: false },
-  { label: "Mi cuenta", icon: AccountIcon, active: false },
+type SidebarActive = "feed" | "kids";
+
+const navItems: { label: string; icon: typeof HomeIcon; href: string; key: string }[] = [
+  { label: "Feed", icon: HomeIcon, href: "/", key: "feed" },
+  { label: "Niños", icon: UsersIcon, href: "/kids", key: "kids" },
+  { label: "Avisos", icon: BellIcon, href: "#", key: "avisos" },
+  { label: "Mi cuenta", icon: AccountIcon, href: "#", key: "account" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ active }: { active: SidebarActive }) {
   return (
     <aside className="hidden lg:flex w-[248px] flex-none flex-col bg-[#FFFDF9] border-r border-[#ECE0D0] py-6 px-4 sticky top-0 h-screen">
       <a href="#" className="flex items-center gap-[11px] px-2 pt-1 pb-[22px]">
@@ -40,20 +42,23 @@ export function Sidebar() {
       </a>
 
       <nav className="flex flex-col gap-1 flex-1">
-        {navItems.map(({ label, icon: Icon, active }) => (
-          <a
-            key={label}
-            href="#"
-            className={`flex items-center gap-3 px-3 py-[11px] rounded-xl text-[14.5px] ${
-              active
-                ? "bg-[#FBE3D8] text-[#D9583C] font-extrabold"
-                : "text-[#6E6359] font-semibold"
-            }`}
-          >
-            <Icon />
-            {label}
-          </a>
-        ))}
+        {navItems.map(({ label, icon: Icon, href, key }) => {
+          const isActive = key === active;
+          return (
+            <a
+              key={key}
+              href={href}
+              className={`flex items-center gap-3 px-3 py-[11px] rounded-xl text-[14.5px] ${
+                isActive
+                  ? "bg-[#FBE3D8] text-[#D9583C] font-extrabold"
+                  : "text-[#6E6359] font-semibold"
+              }`}
+            >
+              <Icon />
+              {label}
+            </a>
+          );
+        })}
       </nav>
 
       <div className="border-t border-[#ECE0D0] pt-[14px] mt-[10px]">
