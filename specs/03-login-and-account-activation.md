@@ -1,6 +1,6 @@
 # Spec 03 — Login y activación de cuenta
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 01, SPEC 02
 **Date:** 2026-09-21
 
@@ -38,16 +38,16 @@ Esta feature **no introduce estructuras de datos nuevas** ni archivos en `data/`
 
 ## Criterios de aceptación
 
-- [ ] `/login` ≥1024px replica `login.dc.html` sin "INGRESO COMO": panel de marca izquierdo (logo, eslogan, "🌿 Guardería Sala Soles") y formulario con EMAIL `caro@opendaycare.com`, CONTRASEÑA `••••••••`, "¿Olvidaste tu contraseña?", botón "Iniciar sesión" y link "Activá tu cuenta".
-- [ ] No existe la opción Personal ni Familia en `/login`.
-- [ ] `/activate-account` replica `activar-cuenta.dc.html`: logo, "Bienvenida a OpenDayCare", tarjeta "Mateo · Sala Soles", `7K4P9`, `lucia.fernandez@gmail.com`, CREAR CONTRASEÑA, consentimiento marcado, "Activar mi cuenta", "¿Ya tenés cuenta? Iniciar sesión".
-- [ ] "Iniciar sesión" y "Activar mi cuenta" navegan a `/`.
-- [ ] "Activá tu cuenta" (login) ↔ "Iniciar sesión" (activar) navegan entre sí.
-- [ ] "¿Olvidaste tu contraseña?" es inerte `#`.
-- [ ] "Cerrar sesión" en el sidebar navega a `/login`; el resto del sidebar no cambia.
-- [ ] `/login` y `/activate-account` van standalone (sin sidebar), fondo `#FBF4EC`.
-- [ ] No hay estilos inline (todo clases Tailwind arbitrarias).
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] `/login` ≥1024px replica `login.dc.html` sin "INGRESO COMO": panel de marca izquierdo (logo, eslogan, "🌿 Guardería Sala Soles") y formulario con EMAIL `caro@opendaycare.com`, CONTRASEÑA `••••••••`, "¿Olvidaste tu contraseña?", botón "Iniciar sesión" y link "Activá tu cuenta".
+- [x] No existe la opción Personal ni Familia en `/login`.
+- [x] `/activate-account` replica `activar-cuenta.dc.html`: logo, "Bienvenida a OpenDayCare", tarjeta "Mateo · Sala Soles", `7K4P9`, `lucia.fernandez@gmail.com`, CREAR CONTRASEÑA, consentimiento marcado, "Activar mi cuenta", "¿Ya tenés cuenta? Iniciar sesión".
+- [x] "Iniciar sesión" y "Activar mi cuenta" navegan a `/`.
+- [x] "Activá tu cuenta" (login) ↔ "Iniciar sesión" (activar) navegan entre sí.
+- [x] "¿Olvidaste tu contraseña?" es inerte `#`.
+- [x] "Cerrar sesión" en el sidebar navega a `/login`; el resto del sidebar no cambia.
+- [x] `/login` y `/activate-account` van standalone (sin sidebar), fondo `#FBF4EC`.
+- [x] No hay estilos inline (todo clases Tailwind arbitrarias).
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 
 ## Decisiones tomadas y descartadas
 
