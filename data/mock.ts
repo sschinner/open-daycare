@@ -14,7 +14,14 @@ export interface Feedback {
   comments: number;
 }
 
-export type PostKind = "achievement" | "activity" | "announcement";
+export type PostKind =
+  | "achievement"
+  | "activity"
+  | "announcement"
+  | "food"
+  | "nap"
+  | "mood"
+  | "photo";
 
 type PostBase = {
   id: number;
@@ -24,12 +31,17 @@ type PostBase = {
   audience: string;
   text: string;
   feedback: Feedback;
+  photos?: string[];
 };
 
 export type Post =
   | (PostBase & { kind: "achievement" })
   | (PostBase & { kind: "activity"; photoLabel: string })
-  | (PostBase & { kind: "announcement" });
+  | (PostBase & { kind: "announcement" })
+  | (PostBase & { kind: "food" })
+  | (PostBase & { kind: "nap" })
+  | (PostBase & { kind: "mood" })
+  | (PostBase & { kind: "photo" });
 
 export const user = {
   name: "Caro",

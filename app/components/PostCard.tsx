@@ -23,6 +23,30 @@ const badgeStyles: Record<
     dot: "bg-[#4E72C8]",
     text: "text-[#4E72C8]",
   },
+  food: {
+    label: "COMIDA",
+    badge: "bg-[#9A7B1E]",
+    dot: "bg-white",
+    text: "text-white",
+  },
+  nap: {
+    label: "SIESTA",
+    badge: "bg-[#E7DCF6]",
+    dot: "bg-[#7B5FC0]",
+    text: "text-[#7B5FC0]",
+  },
+  mood: {
+    label: "ÁNIMO",
+    badge: "bg-[#F9D2DE]",
+    dot: "bg-[#C56486]",
+    text: "text-[#C56486]",
+  },
+  photo: {
+    label: "FOTO",
+    badge: "bg-[#FBD8CC]",
+    dot: "bg-[#D9684A]",
+    text: "text-[#D9684A]",
+  },
 };
 
 export function PostCard({ post }: { post: Post }) {
@@ -68,7 +92,28 @@ export function PostCard({ post }: { post: Post }) {
         {post.text}
       </p>
 
-      {post.kind === "activity" && (
+      {post.photos && post.photos.length > 0 && (
+        <div
+          className={`mt-[14px] grid gap-2 ${
+            post.photos.length === 1
+              ? "grid-cols-1"
+              : post.photos.length === 2
+                ? "grid-cols-2"
+                : "grid-cols-3"
+          }`}
+        >
+          {post.photos.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt=""
+              className="w-full h-[200px] rounded-2xl object-cover"
+            />
+          ))}
+        </div>
+      )}
+
+      {post.kind === "activity" && !post.photos && (
         <a
           href="#"
           className="flex flex-col items-center justify-center gap-2 mt-[14px] border-[1.5px] border-dashed border-[#DBCDBA] rounded-2xl bg-[#F4ECE1] h-[200px] text-[#B0A290]"
