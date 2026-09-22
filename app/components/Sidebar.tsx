@@ -18,7 +18,13 @@ const navItems: { label: string; icon: typeof HomeIcon; href: string; key: strin
   { label: "Mi cuenta", icon: AccountIcon, href: "#", key: "account" },
 ];
 
-export function Sidebar({ active }: { active: SidebarActive }) {
+export function Sidebar({
+  active,
+  onNewPost,
+}: {
+  active: SidebarActive;
+  onNewPost?: () => void;
+}) {
   return (
     <aside className="hidden lg:flex w-[248px] flex-none flex-col bg-[#FFFDF9] border-r border-[#ECE0D0] py-6 px-4 sticky top-0 h-screen">
       <a href="#" className="flex items-center gap-[11px] px-2 pt-1 pb-[22px]">
@@ -33,13 +39,14 @@ export function Sidebar({ active }: { active: SidebarActive }) {
         </div>
       </a>
 
-      <a
-        href="#"
+      <button
+        type="button"
+        onClick={onNewPost}
         className="flex items-center justify-center gap-2 w-full p-3 rounded-[14px] bg-[linear-gradient(180deg,#F4977E,#EE8164)] text-white font-extrabold text-[14.5px] shadow-[0_8px_18px_-8px_rgba(238,129,100,.75)] mb-[18px]"
       >
         <PlusIcon />
         Nueva publicación
-      </a>
+      </button>
 
       <nav className="flex flex-col gap-1 flex-1">
         {navItems.map(({ label, icon: Icon, href, key }) => {
