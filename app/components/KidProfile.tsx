@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import type { Kid, Parent } from "@/data/kids";
 import { room } from "@/data/mock";
 import { AlertIcon, ArrowLeftIcon, LogoIcon, PlusIcon } from "./icons";
+import { LinkParentModal } from "./LinkParentModal";
 
 function parentStatusBadge(status: Parent["status"]): { text: string; className: string } {
   return status === "active"
@@ -10,6 +14,8 @@ function parentStatusBadge(status: Parent["status"]): { text: string; className:
 }
 
 export function KidProfile({ kid }: { kid: Kid }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [extraParents, setExtraParents] = useState<Parent[]>([]);
   const roomShortName = room.name.split(" ").at(-1) ?? room.name;
 
   return (
@@ -93,12 +99,12 @@ export function KidProfile({ kid }: { kid: Kid }) {
               PADRES VINCULADOS
             </div>
 
-            {kid.parents.length > 0 && (
+            {(kid.parents.length > 0 || extraParents.length > 0) && (
               <div className="flex flex-col gap-[14px]">
-                {kid.parents.map((parent) => {
+                {[...kid.parents, ...extraParents].map((parent, index) => {
                   const badge = parentStatusBadge(parent.status);
                   return (
-                    <div key={parent.name} className="flex items-center gap-3">
+                    <div key={`${parent.name}-${index}`} className="flex items-center gap-3">
                       <div
                         className="w-10 h-10 rounded-full font-display font-semibold text-[16px] text-white flex items-center justify-center flex-none"
                         style={{ backgroundColor: parent.avatarBg }}
@@ -124,17 +130,32 @@ export function KidProfile({ kid }: { kid: Kid }) {
               </div>
             )}
 
-            <a href="#" className="flex items-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className="flex items-center gap-3 pt-2"
+            >
               <span className="w-10 h-10 rounded-full border-[1.5px] border-dashed border-[#D8CBBA] flex items-center justify-center text-[#B0A290] flex-none">
                 <PlusIcon />
               </span>
               <span className="font-extrabold text-[14.5px] text-[#C5503A]">
                 Vincular otro padre
               </span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
+
+      {isOpen && (
+        <LinkParentModal
+          kidName={kid.name}
+          onClose={() => setIsOpen(false)}
+          onSave={(parent) => {
+            setExtraParents((prev) => [...prev, parent]);
+            setIsOpen(false);
+          }}
+        />
+      )}
     </>
   );
 }
