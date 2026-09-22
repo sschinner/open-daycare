@@ -1,6 +1,6 @@
 # Spec 06 — Modal crear publicación
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 01, SPEC 02
 **Date:** 2026-09-22
 
@@ -69,17 +69,17 @@ Los 3 posts existentes no llevan `photos` (sin cambios). El post en memoria:
 
 ## Criterios de aceptación
 
-- [ ] En `/`, presionar "Nueva publicación" (sidebar) o "Compartí un momento…" abre el modal con header Cancelar / Nueva publicación / Publicar y las secciones PARA, TIPO, DESCRIPCIÓN y FOTOS replicando `crear-publicacion.dc.html`.
-- [ ] PARA muestra una pill por cada niño de `data/kids.ts` (inicial + `avatarBg` + nombre) más "Toda la sala"; selección única, ninguna preseleccionada.
-- [ ] TIPO muestra las 7 pills (Comida, Siesta, Actividad, Logro, Ánimo, Foto, Anuncio) con los colores del mockup; selección única.
-- [ ] Publicar sin Para, sin Tipo o con Descripción vacía muestra error inline en español bajo la sección culpable y no cierra el modal; el error desaparece al corregir.
-- [ ] FOTOS permite subir por selección de archivo y por drag and drop con preview real, hasta 4, botón X para quitar; es opcional.
-- [ ] Publicar válido cierra el modal, lo deja en blanco y agrega el post arriba de "PUBLICADO HOY" con autor Caro, hora actual, audiencia "Para: familia de {nombre}" o "Para: toda la sala", badge del tipo y 0 likes/0 comentarios; con fotos, muestra las imágenes reales.
-- [ ] Cancelar, `Esc` o click en el fondo cierran el modal y lo dejan en blanco en la próxima apertura.
-- [ ] Recargar `/` elimina el post agregado (sin persistencia).
-- [ ] Los posts existentes de SPEC 01 se renderizan igual (placeholder solo para `activity` sin fotos) y `/kids` no cambia.
-- [ ] No hay estilos inline y ningún archivo bajo `references/` se modifica.
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] En `/`, presionar "Nueva publicación" (sidebar) o "Compartí un momento…" abre el modal con header Cancelar / Nueva publicación / Publicar y las secciones PARA, TIPO, DESCRIPCIÓN y FOTOS replicando `crear-publicacion.dc.html`.
+- [x] PARA muestra una pill por cada niño de `data/kids.ts` (inicial + `avatarBg` + nombre) más "Toda la sala"; selección única, ninguna preseleccionada.
+- [x] TIPO muestra las 7 pills (Comida, Siesta, Actividad, Logro, Ánimo, Foto, Anuncio) con los colores del mockup; selección única.
+- [x] Publicar sin Para, sin Tipo o con Descripción vacía muestra error inline en español bajo la sección culpable y no cierra el modal; el error desaparece al corregir.
+- [x] FOTOS permite subir por selección de archivo y por drag and drop con preview real, hasta 4, botón X para quitar; es opcional.
+- [x] Publicar válido cierra el modal, lo deja en blanco y agrega el post arriba de "PUBLICADO HOY" con autor Caro, hora actual, audiencia "Para: familia de {nombre}" o "Para: toda la sala", badge del tipo y 0 likes/0 comentarios; con fotos, muestra las imágenes reales.
+- [x] Cancelar, `Esc` o click en el fondo cierran el modal y lo dejan en blanco en la próxima apertura.
+- [x] Recargar `/` elimina el post agregado (sin persistencia).
+- [x] Los posts existentes de SPEC 01 se renderizan igual (placeholder solo para `activity` sin fotos) y `/kids` no cambia.
+- [x] No hay estilos inline hardcodeados (los colores dinámicos de avatar provienen de `data/kids.ts`) y ningún archivo bajo `references/` se modifica.
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 
 ## Decisiones tomadas y descartadas
 
