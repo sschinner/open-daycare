@@ -1,8 +1,11 @@
+export type ParentRelation = "Mamá" | "Papá" | "Tutor/a";
+
 export interface Parent {
   name: string;
+  email?: string;
   initial: string;
   avatarBg: string;
-  relation: "Mamá" | "Papá";
+  relation: ParentRelation;
   status: "active" | "pending";
   statusText: "activa" | "invitación enviada";
 }
