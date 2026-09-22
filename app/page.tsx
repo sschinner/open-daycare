@@ -1,11 +1,24 @@
+"use client";
+
+import { useState } from "react";
 import { AppLayout } from "@/app/components/AppLayout";
+import { CreatePostModal } from "@/app/components/CreatePostModal";
 import { PostCard } from "@/app/components/PostCard";
 import { CameraIcon } from "@/app/components/icons";
 import { posts, room, user } from "@/data/mock";
+import type { Post } from "@/data/mock";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [extraPosts, setExtraPosts] = useState<Post[]>([]);
+
+  function handleSave(post: Post) {
+    setExtraPosts((prev) => [post, ...prev]);
+    setIsOpen(false);
+  }
+
   return (
-    <AppLayout active="feed">
+    <AppLayout active="feed" onNewPost={() => setIsOpen(true)}>
       <div className="max-w-[760px] w-full mx-auto pt-[34px] px-10 pb-20">
         <div className="mb-6">
           <div className="text-[12.5px] font-extrabold tracking-[.8px] text-[#D9583C] mb-1">
@@ -19,9 +32,10 @@ export default function Home() {
           </p>
         </div>
 
-        <a
-          href="#"
-          className="flex items-center gap-[14px] bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] px-[18px] py-[14px] mb-6 shadow-[0_4px_14px_-10px_rgba(120,90,60,.4)]"
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="flex items-center gap-[14px] w-full bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] px-[18px] py-[14px] mb-6 shadow-[0_4px_14px_-10px_rgba(120,90,60,.4)] text-left"
         >
           <div className="w-10 h-10 rounded-full bg-[#F2937A] text-white font-display font-semibold text-[16px] flex items-center justify-center flex-none">
             {user.initial}
@@ -32,7 +46,7 @@ export default function Home() {
           <span className="w-[38px] h-[38px] rounded-xl bg-[#FBE3D8] text-[#E0654A] flex items-center justify-center">
             <CameraIcon />
           </span>
-        </a>
+        </button>
 
         <div className="flex items-center gap-[14px] mb-[14px]">
           <span className="text-[12.5px] font-extrabold tracking-[.8px] text-[#8A7C6D]">
@@ -42,11 +56,15 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col gap-4">
-          {posts.map((post) => (
+          {[...extraPosts, ...posts].map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
       </div>
+
+      {isOpen && (
+        <CreatePostModal onClose={() => setIsOpen(false)} onSave={handleSave} />
+      )}
     </AppLayout>
   );
 }
