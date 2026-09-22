@@ -1,6 +1,6 @@
 # Spec 05 — Modal vincular padre
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 02
 **Date:** 2026-09-22
 
@@ -63,15 +63,15 @@ El padre nuevo en memoria:
 
 ## Criterios de aceptación
 
-- [ ] En `/kids/{slug}`, presionar "Vincular otro padre" abre el modal con header "Vincular padre / a {nombre}", caja de aviso, los 3 campos (labels y placeholders "Ej. Diego Fernández", "correo@ejemplo.com") y el bloque `7K4P9` "Vence en 7 días".
-- [ ] PARENTESCO son 3 pills Mamá/Papá/Tutor/a con Mamá preseleccionada; el estilo de la pill activa replica el mockup.
-- [ ] Enviar con Nombre vacío o Email inválido muestra error inline en español + borde rojo bajo el campo culpable y no cierra el modal; el error desaparece al corregir.
-- [ ] Enviar con los 3 campos válidos cierra el modal y agrega el padre al final de PADRES VINCULADOS con badge `PENDIENTE` y subtítulo "invitación enviada".
-- [ ] X, `Esc` o click en el fondo cierran el modal y lo dejan en blanco en la próxima apertura.
-- [ ] Recargar `/kids/{slug}` elimina el padre agregado (sin persistencia).
-- [ ] `generateStaticParams` y `notFound()` de `/kids/{slug}` siguen intactos (la página permanece en servidor).
-- [ ] No hay estilos inline y no se modifica nada bajo `references/`.
-- [ ] `npm run lint` y `npm run build` pasan sin errores.
+- [x] En `/kids/{slug}`, presionar "Vincular otro padre" abre el modal con header "Vincular padre / a {nombre}", caja de aviso, los 3 campos (labels y placeholders "Ej. Diego Fernández", "correo@ejemplo.com") y el bloque `7K4P9` "Vence en 7 días".
+- [x] PARENTESCO son 3 pills Mamá/Papá/Tutor/a con Mamá preseleccionada; el estilo de la pill activa replica el mockup.
+- [x] Enviar con Nombre vacío o Email inválido muestra error inline en español + borde rojo bajo el campo culpable y no cierra el modal; el error desaparece al corregir.
+- [x] Enviar con los 3 campos válidos cierra el modal y agrega el padre al final de PADRES VINCULADOS con badge `PENDIENTE` y subtítulo "invitación enviada".
+- [x] X, `Esc` o click en el fondo cierran el modal y lo dejan en blanco en la próxima apertura.
+- [x] Recargar `/kids/{slug}` elimina el padre agregado (sin persistencia).
+- [x] `generateStaticParams` y `notFound()` de `/kids/{slug}` siguen intactos (la página permanece en servidor).
+- [x] No hay estilos inline y no se modifica nada bajo `references/`.
+- [x] `npm run lint` y `npm run build` pasan sin errores.
 
 ## Decisiones tomadas y descartadas
 
