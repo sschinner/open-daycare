@@ -20,6 +20,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Next.js 16.3.5 (App Router) + React 19 + TypeScript strict. Tailwind v4 (CSS-first config in `app/globals.css` via `@import "tailwindcss"` — there is **no** `tailwind.config.*` file).
 - Path alias `@/*` maps to the repo root (`tsconfig.json`).
 - Target app: "open-daycare". UI copy is in **Spanish** — match it.
+- Backend: Supabase. La capa de datos todavía **no** está implementada en la app (no hay `@supabase/supabase-js` ni `@supabase/ssr` en `package.json`; los datos vienen de mocks en `data/`).
 
 ## Commands
 
@@ -27,6 +28,22 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `npm run lint` — ESLint only (flat config, `eslint.config.mjs`).
 - `npm run build` — production build (performs type checking).
 - There is **no test framework and no test script** in this repo.
+
+## Supabase
+
+- Proyecto: `kvisrrdefgoayoaezgti` → API en `https://kvisrrdefgoayoaezgti.supabase.co`.
+- La contraseña de la DB está en `.env` (`SUPABASE_DB_PASSWORD`); `.env` está gitignored y `.env.template` es el archivo commiteado. Nunca hardcodear credenciales en el código.
+- **La base está vacía**: sin tablas en `public` y sin migraciones aplicadas. El schema a crear está solo como referencia en el proyecto hermano `../07-DB-Schema` (registrado como reference `docs` en `opencode.json`) — todavía no está implementado en la DB.
+- El MCP de Supabase está configurado **globalmente** en `~/.config/opencode/opencode.jsonc` (no en el `opencode.json` del repo) con las features `docs, account, database, debugging, development, functions, branching`. Usarlo para DDL/SQL: `supabase_apply_migration` para cambios de schema (queda en el historial de migraciones), `supabase_execute_sql` solo para consultas, y `supabase_list_tables` / `supabase_list_migrations` / `supabase_get_advisors` para inspeccionar estado.
+- Antes de cualquier tarea de Supabase, cargar la skill `supabase` (ver abajo) y verificar contra la documentación actual, no contra memoria del modelo.
+
+## Skills
+
+Instaladas con `npx skills add` (origen `supabase/agent-skills`), registradas en `skills-lock.json`:
+
+- **`supabase`** (`.agents/skills/supabase/SKILL.md`) — cargar para cualquier tarea que toque Supabase: cliente JS y SSR en Next.js, auth/cookies/JWT, RLS, migraciones, Edge Functions, Realtime, Storage, logs. Cubre trampas de seguridad conocidas (no usar `user_metadata` para autorización, RLS en todo schema expuesto, granting de la Data API).
+- **`supabase-postgres-best-practices`** (`.agents/skills/supabase-postgres-best-practices/SKILL.md`) — cargar **antes** de escribir o modificar cualquier cosa en Postgres: tipos de columna, schema design, índices, RLS, funciones, particionado. Las reglas están en `references/` con prefijo por categoría (`query-`, `conn-`, `security-`, `schema-`, `lock-`, `data-`, `monitor-`, `advanced-`); leer el archivo concreto de la regla, no las 40.
+- Location canónica: `.agents/skills/`. `.claude/skills/` contiene symlinks a las mismas (compatibilidad con Claude Code). Las copias en `agent/skills/` y `data/skills/` son basura del instalador: no editarlas ni usarlas.
 
 ## References (design sources, read-only)
 
