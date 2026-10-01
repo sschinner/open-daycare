@@ -33,9 +33,28 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Proyecto: `kvisrrdefgoayoaezgti` → API en `https://kvisrrdefgoayoaezgti.supabase.co`.
 - La contraseña de la DB está en `.env` (`SUPABASE_DB_PASSWORD`); `.env` está gitignored y `.env.template` es el archivo commiteado. Nunca hardcodear credenciales en el código.
-- **La base está vacía**: sin tablas en `public` y sin migraciones aplicadas. El schema a crear está solo como referencia en el proyecto hermano `../07-DB-Schema` (registrado como reference `docs` en `opencode.json`) — todavía no está implementado en la DB.
-- El MCP de Supabase está configurado **globalmente** en `~/.config/opencode/opencode.jsonc` (no en el `opencode.json` del repo) con las features `docs, account, database, debugging, development, functions, branching`. Usarlo para DDL/SQL: `supabase_apply_migration` para cambios de schema (queda en el historial de migraciones), `supabase_execute_sql` solo para consultas, y `supabase_list_tables` / `supabase_list_migrations` / `supabase_get_advisors` para inspeccionar estado.
+- El MCP de Supabase está configurado **globalmente** en `~/.config/opencode/opencode.jsonc` (no en el `opencode.json` del repo) con las features `docs, account, database, debugging, development, functions, branching`.
 - Antes de cualquier tarea de Supabase, cargar la skill `supabase` (ver abajo) y verificar contra la documentación actual, no contra memoria del modelo.
+- Tools de inspección (solo lectura): `supabase_list_tables`, `supabase_list_migrations`, `supabase_get_advisors`, `supabase_list_extensions` y `supabase_execute_sql`.
+
+## Migraciones — siempre, sin excepciones
+
+**Todo cambio en la base de datos va en una migración.** No hay atajo: DDL, DML, RLS, funciones, `grant`/`revoke`, índices y seeds. Nada de "SQL rápido" para una sola operación.
+
+- **Nunca** aplicar DDL/DML con `supabase_execute_sql`. Ese tool es **solo lectura**: sirve para consultar el catálogo y verificar, no para modificar. Si el SQL modifica algo, es una migración.
+- **Siempre** `supabase_apply_migration`, con `name` en `snake_case` y en inglés (`create_daycares`, `add_email_to_users`, `seed_daycares`).
+- **Siempre** guardar el SQL en `supabase/migrations/<version>_<name>.sql` en el **mismo paso**, con la **versión exacta** que devuelve el MCP. El repo es la fuente auditable del schema; si el archivo y el historial divergen, `supabase db pull` rompe.
+- El historial remoto es **inmutable**: una migración aplicada no se edita ni se borra. Para corregir algo se escribe otra migración nueva.
+- **DDL y DML van en migraciones separadas**: `create_<tabla>` para el schema, `seed_<tabla>` para los datos. No se mezclan.
+- Convención del SQL: minúsculas, `snake_case` sin comillas, `uuid` + `gen_random_uuid()` para ids, `text` en vez de `varchar(n)`, `timestamptz` en vez de `timestamp`, RLS habilitado desde la creación de cada tabla.
+- El schema completo está descrito en `../07-DB-Schema` (reference `docs` en `opencode.json`). Es **solo referencia**: no se modifica y no se implementa entero de una; cada tabla se migra en su propia spec.
+- Antes de dar por terminada una tarea de DB, verificar: `supabase_list_migrations` muestra la migración nueva y el `.sql` local tiene esa misma versión.
+
+## Estado actual de la base
+
+- `public` tiene 1 tabla: `daycares` (`id`, `name`, `created_at`), RLS habilitado sin policies (deny-by-default), 4 filas de seed.
+- La capa de datos en la app sigue sin implementarse (specs 01–06 usan mocks en `data/`).
+- El historial remoto tiene 5 migraciones: `create_test_table` ×2 y `drop_test_table` (basura de una prueba previa; inmutable e inofensiva), más `create_daycares` y `seed_daycares`.
 
 ## Skills
 
@@ -52,7 +71,7 @@ Instaladas con `npx skills add` (origen `supabase/agent-skills`), registradas en
 
 ## Working on features
 
-- Use the **`spec`** skill to design a new feature; specs go in `specs/` (folder does not exist yet). The **`spec-impl`** skill implements an approved spec.
+- Use the **`spec`** skill to design a new feature; specs go in `specs/`. The **`spec-impl`** skill implements an approved spec.
 - Use the **`spec-check`** agent (`.opencode/agent/spec-check.md`) to verify the acceptance criteria of an implemented spec against the code. Run it after `spec-impl`, passing the spec name (e.g. `01-feed-home`). It reviews, fixes and marks the `## Criterios de aceptación` checks, using Context7 for current Next.js practices and Playwright to validate screens against the mockups. It never commits and asks for approval before writing changes to the spec.
 - Specs are written in the same language as the conversation (Spanish unless prompted otherwise).
 
