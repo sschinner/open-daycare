@@ -66,14 +66,14 @@ Convenciones:
 
 ## Criterios de aceptación
 
-- [ ] `public.daycares` existe con exactamente `id uuid PK default gen_random_uuid()`, `name text not null` y `created_at timestamptz not null default now()`, sin otras columnas.
-- [ ] `pg_class.relrowsecurity` de `daycares` es `true` y `pg_policies` no devuelve filas para la tabla.
-- [ ] `GET https://kvisrrdefgoayoaezgti.supabase.co/rest/v1/daycares?select=*` con la publishable key devuelve `[]`.
-- [ ] La tabla tiene 4 filas y una de ellas es `Guardería Sala Soles`.
-- [ ] `supabase_list_migrations` muestra `create_daycares` y `seed_daycares`.
-- [ ] `supabase/migrations/` contiene los 2 `.sql` con el mismo SQL y la misma versión que el historial remoto.
-- [ ] `supabase_get_advisors security` no reporta hallazgos sobre `daycares` (los 2 avisos de `rls_auto_enable` son preexistentes de la plataforma).
-- [ ] Nada bajo `app/`, `data/`, `references/` ni `package.json` cambió; `npm run lint` y `npm run build` pasan.
+- [x] `public.daycares` existe con exactamente `id uuid PK default gen_random_uuid()`, `name text not null` y `created_at timestamptz not null default now()`, sin otras columnas.
+- [x] `pg_class.relrowsecurity` de `daycares` es `true` y `pg_policies` no devuelve filas para la tabla.
+- [x] `GET https://kvisrrdefgoayoaezgti.supabase.co/rest/v1/daycares?select=*` con la publishable key devuelve `[]`.
+- [x] La tabla tiene 4 filas y una de ellas es `Guardería Sala Soles`.
+- [x] `supabase_list_migrations` muestra `create_daycares` y `seed_daycares`.
+- [x] `supabase/migrations/` contiene los 2 `.sql` con el mismo SQL y la misma versión que el historial remoto.
+- [x] `supabase_get_advisors security` no reporta hallazgos de nivel `WARN` ni `ERROR` sobre `daycares`; el único hallazgo sobre la tabla es `rls_enabled_no_policy` (nivel `INFO`), esperado por el diseño deny-by-default. Los 2 avisos `WARN` de `rls_auto_enable` son preexistentes de la plataforma.
+- [x] Nada bajo `app/`, `data/`, `references/` ni `package.json` cambió; `npm run lint` y `npm run build` pasan.
 
 ## Decisiones tomadas y descartadas
 
