@@ -1,6 +1,6 @@
 # Spec 07 — Tabla `daycares`
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** — (ninguna: SPEC 01–06 siguen con los mocks de `data/`)
 **Date:** 2026-10-01
 

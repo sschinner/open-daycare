@@ -1,6 +1,6 @@
 # Spec 08 — Tabla `users`, enums y usuario staff de prueba
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 07
 **Date:** 2026-10-01
 
@@ -18,7 +18,7 @@ Es la segunda tabla del schema y la primera que rompe todas las convenciones que
   - `create type public.user_role as enum ('staff', 'parent', 'admin');`
   - `create type public.user_status as enum ('pending', 'active');`
   - `create or replace function public.set_updated_at() returns trigger language plpgsql ...`
-  - `create table public.users (...)` con las 11 columnas de `../07-DB-Schema` §2
+  - `create table public.users (...)` con las 10 columnas de `../07-DB-Schema` §2
   - `create index users_daycare_id_idx on public.users (daycare_id);`
   - `create trigger users_set_updated_at before update on public.users for each row execute function public.set_updated_at();`
   - `alter table public.users enable row level security;` — **sin policies**, deny-by-default igual que spec 07.
@@ -120,19 +120,19 @@ Convenciones y desvíos deliberados:
 
 ## Criterios de aceptación
 
-- [ ] Existen `public.user_role` (`staff`, `parent`, `admin`) y `public.user_status` (`pending`, `active`), y ningún otro tipo enum nuevo en `public`.
-- [ ] `public.users` existe con exactamente las 11 columnas de `../07-DB-Schema` §2, en ese orden, con los tipos y defaults del Data model de esta spec.
-- [ ] `users.id` es FK a `auth.users (id)` con `on delete cascade`, es PK, y **no** tiene default.
-- [ ] `users.daycare_id` es FK a `public.daycares (id)`, `not null`, sin `on delete`, y existe el índice `users_daycare_id_idx` sobre esa columna.
-- [ ] `users.role` y `users.status` son del enum correspondiente; `role` no tiene default y `status` tiene default `active`.
-- [ ] `pg_class.relrowsecurity` de `users` es `true` y `pg_policies` no devuelve filas para la tabla.
-- [ ] `GET https://kvisrrdefgoayoaezgti.supabase.co/rest/v1/users?select=*` con la publishable key devuelve `[]`.
-- [ ] Existe el trigger `users_set_updated_at` y `update public.users set avatar_url = avatar_url` cambia `updated_at` a un valor mayor.
-- [ ] La tabla tiene exactamente 1 fila: `id` igual al de `auth.users` con email `sebastian@google.com`, `role = 'staff'`, `status = 'active'`, `full_name = 'Sebastián'`, `daycare_id` igual al de `Guardería Sala Soles`.
-- [ ] El SQL de las 2 migraciones no contiene ninguna contraseña ni la `service_role` key.
-- [ ] `supabase_list_migrations` muestra `create_users` y `seed_users`, y `supabase/migrations/` contiene los 2 `.sql` con el mismo SQL y la misma versión que el historial remoto.
-- [ ] `supabase_get_advisors security` no reporta hallazgos `WARN` ni `ERROR` sobre `users`; el único hallazgo sobre la tabla es `rls_enabled_no_policy` (nivel `INFO`), esperado por el diseño deny-by-default.
-- [ ] Nada bajo `app/`, `data/`, `references/`, `package.json` ni `../07-DB-Schema` cambió; `npm run lint` y `npm run build` pasan.
+- [x] Existen `public.user_role` (`staff`, `parent`, `admin`) y `public.user_status` (`pending`, `active`), y ningún otro tipo enum nuevo en `public`.
+- [x] `public.users` existe con exactamente las 10 columnas de `../07-DB-Schema` §2, en ese orden, con los tipos y defaults del Data model de esta spec.
+- [x] `users.id` es FK a `auth.users (id)` con `on delete cascade`, es PK, y **no** tiene default.
+- [x] `users.daycare_id` es FK a `public.daycares (id)`, `not null`, sin `on delete`, y existe el índice `users_daycare_id_idx` sobre esa columna.
+- [x] `users.role` y `users.status` son del enum correspondiente; `role` no tiene default y `status` tiene default `active`.
+- [x] `pg_class.relrowsecurity` de `users` es `true` y `pg_policies` no devuelve filas para la tabla.
+- [x] `GET https://kvisrrdefgoayoaezgti.supabase.co/rest/v1/users?select=*` con la publishable key devuelve `[]`.
+- [x] Existe el trigger `users_set_updated_at` y `update public.users set avatar_url = avatar_url` cambia `updated_at` a un valor mayor.
+- [x] La tabla tiene exactamente 1 fila: `id` igual al de `auth.users` con email `sebastian@google.com`, `role = 'staff'`, `status = 'active'`, `full_name = 'Sebastián'`, `daycare_id` igual al de `Guardería Sala Soles`.
+- [x] El SQL de las 2 migraciones no contiene ninguna contraseña ni la `service_role` key.
+- [x] `supabase_list_migrations` muestra `create_users` y `seed_users`, y `supabase/migrations/` contiene los 2 `.sql` con el mismo SQL y la misma versión que el historial remoto.
+- [x] `supabase_get_advisors security` no reporta hallazgos `WARN` ni `ERROR` sobre `users`; el único hallazgo sobre la tabla es `rls_enabled_no_policy` (nivel `INFO`), esperado por el diseño deny-by-default.
+- [x] Nada bajo `app/`, `data/`, `references/`, `package.json` ni `../07-DB-Schema` cambió; `npm run lint` y `npm run build` pasan.
 
 ## Decisiones tomadas y descartadas
 
