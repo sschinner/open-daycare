@@ -20,7 +20,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Next.js 16.3.5 (App Router) + React 19 + TypeScript strict. Tailwind v4 (CSS-first config in `app/globals.css` via `@import "tailwindcss"` — there is **no** `tailwind.config.*` file).
 - Path alias `@/*` maps to the repo root (`tsconfig.json`).
 - Target app: "open-daycare". UI copy is in **Spanish** — match it.
-- Backend: Supabase. La capa de datos todavía **no** está implementada en la app (no hay `@supabase/supabase-js` ni `@supabase/ssr` en `package.json`; los datos vienen de mocks en `data/`).
+- Backend: Supabase. La app accede a la base **exclusivamente con los paquetes oficiales de Supabase para Next.js** (`@supabase/supabase-js` + `@supabase/ssr`) a través de los helpers de `utils/supabase/` — ver la sección **Capa de datos en la app**. Los specs 01–06 todavía muestran mocks de `data/`.
 
 ## Commands
 
@@ -36,6 +36,27 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - El MCP de Supabase está configurado **globalmente** en `~/.config/opencode/opencode.jsonc` (no en el `opencode.json` del repo) con las features `docs, account, database, debugging, development, functions, branching`.
 - Antes de cualquier tarea de Supabase, cargar la skill `supabase` (ver abajo) y verificar contra la documentación actual, no contra memoria del modelo.
 - Tools de inspección (solo lectura): `supabase_list_tables`, `supabase_list_migrations`, `supabase_get_advisors`, `supabase_list_extensions` y `supabase_execute_sql`.
+
+## Capa de datos en la app
+
+La app habla con Supabase **solo** a través de los paquetes oficiales para Next.js: `@supabase/supabase-js` y `@supabase/ssr`. Nada de `fetch` a la API REST, `axios`, el SDK de Python, o cualquier otro camino: un cliente por tipo de componente, y siempre a través de estos helpers.
+
+- **`utils/supabase/client.ts`** — `createClient()` para Client Components y cualquier código que corre en el browser. Envolvente de `createBrowserClient` de `@supabase/ssr`.
+- **`utils/supabase/server.ts`** — `createClient()` **async** para Server Components, Server Actions y Route Handlers. Hace `await cookies()` internamente, así que el call site es `const supabase = await createClient()`; no hay que pasarle `cookieStore`.
+- **`utils/supabase/proxy.ts`** — `updateSession(request)`, la lógica de refresco de sesión.
+- **`proxy.ts`** (raíz) — el archivo que Next lee; solo delega en `updateSession`. Ojo: en Next 16 la convención `middleware.ts` fue renombrada a **`proxy.ts`** y `middleware` está deprecada. No crear `middleware.ts`.
+- Cada cliente se crea **por request**, nunca en un módulo compartido a nivel de scope.
+
+Reglas de auth (verificadas contra la doc actual, no de memoria):
+
+- En el server, para **verificar identidad** usar `supabase.auth.getClaims()`; `getUser()` solo cuando haga falta el record actualizado del user (hace una llamada de red). `getSession()` no verifica nada: no usarlo para decisiones de autorización.
+- Server Components no pueden escribir cookies; por eso el refresco vive en `proxy.ts`. El `catch` del `setAll` en `server.ts` es esperado y se ignora a propósito.
+- `getClaims()` verifica el token y refresca las cookies de request y response — **no correr nada entre `createServerClient` y `getClaims()`**.
+- Nunca exponer la `service_role` / secret key. Todo lo del cliente es `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; el secreto de la DB solo vive en `.env`.
+
+Variables: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en `.env.local` (gitignored) y en `.env-template`. Nunca hardcodearlas en el código.
+
+Pendiente: los tipos de la DB todavía **no** están generados. Cuando se hagan, el output de `supabase_generate_typescript_types` va a un archivo commiteado y los clientes se tipan contra ese `Database`.
 
 ## Migraciones — siempre, sin excepciones
 
@@ -53,7 +74,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Estado actual de la base
 
 - `public` tiene 1 tabla: `daycares` (`id`, `name`, `created_at`), RLS habilitado sin policies (deny-by-default), 4 filas de seed.
-- La capa de datos en la app sigue sin implementarse (specs 01–06 usan mocks en `data/`).
+- La capa de datos en la app está montada (helpers de `utils/supabase/` + `proxy.ts`) pero **ninguna pantalla la consume todavía**: specs 01–06 siguen con mocks en `data/`.
 - El historial remoto tiene 5 migraciones: `create_test_table` ×2 y `drop_test_table` (basura de una prueba previa; inmutable e inofensiva), más `create_daycares` y `seed_daycares`.
 
 ## Skills
