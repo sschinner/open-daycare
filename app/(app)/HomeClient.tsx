@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useComposer } from "@/app/components/AppShell";
 import { CreatePostModal } from "@/app/components/CreatePostModal";
 import { PostCard } from "@/app/components/PostCard";
 import { CameraIcon } from "@/app/components/icons";
@@ -10,12 +11,12 @@ import type { Post } from "@/data/mock";
 
 export function HomeClient() {
   const profile = useProfile();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isComposerOpen, openComposer, closeComposer } = useComposer();
   const [extraPosts, setExtraPosts] = useState<Post[]>([]);
 
   function handleSave(post: Post) {
     setExtraPosts((prev) => [post, ...prev]);
-    setIsOpen(false);
+    closeComposer();
   }
 
   return (
@@ -34,7 +35,7 @@ export function HomeClient() {
 
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={openComposer}
         className="flex items-center gap-[14px] w-full bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] px-[18px] py-[14px] mb-6 shadow-[0_4px_14px_-10px_rgba(120,90,60,.4)] text-left"
       >
         <div className="w-10 h-10 rounded-full bg-[#F2937A] text-white font-display font-semibold text-[16px] flex items-center justify-center flex-none">
@@ -61,8 +62,8 @@ export function HomeClient() {
         ))}
       </div>
 
-      {isOpen && (
-        <CreatePostModal onClose={() => setIsOpen(false)} onSave={handleSave} />
+      {isComposerOpen && (
+        <CreatePostModal onClose={closeComposer} onSave={handleSave} />
       )}
     </div>
   );
