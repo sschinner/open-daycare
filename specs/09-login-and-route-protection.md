@@ -1,6 +1,6 @@
 # Spec 09 — Login real y protección de rutas
 
-**State:** Approved
+**State:** Implemented
 **Depends on:** SPEC 03, SPEC 06, SPEC 08
 **Date:** 2026-10-03
 
@@ -85,19 +85,19 @@ create policy users_select_own
 
 ## Criterios de aceptación
 
-- [ ] Con email y contraseña correctos de `sebastian@google.com`, el login entra a `/` (o al `next` preservado) y el sidebar muestra "Sebastián" y "Personal · Sala Soles".
-- [ ] Email o contraseña incorrectos muestran un error inline en español y no navegan.
-- [ ] Al menos un campo vacío muestra error inline y no dispara la llamada a Supabase.
-- [ ] Sin sesión, `/`, `/kids` y `/kids/<slug>` redirigen a `/login?next=<destino>` y, tras loguearse, se vuelve a ese destino.
-- [ ] Con sesión, entrar a `/login` redirige a `/` sin mostrar el formulario.
-- [ ] "Cerrar sesión" borra la sesión; al escribir `/` a mano vuelve a redirigir a `/login`.
-- [ ] El modal "Nueva publicación" se abre desde el sidebar en `/` y sigue inerte en `/kids`.
-- [ ] El feed abre con "Buenas, Sebastián" y el avatar con la inicial "S".
-- [ ] `pg_policies` muestra `users_select_own`; `GET /rest/v1/users?select=*` sin sesión devuelve `[]` y con el access token del staff devuelve exactamente su fila.
+- [x] Con email y contraseña correctos de `sebastian@google.com`, el login entra a `/` (o al `next` preservado) y el sidebar muestra "Sebastián" y "Personal · Sala Soles".
+- [x] Email o contraseña incorrectos muestran un error inline en español y no navegan.
+- [x] Al menos un campo vacío muestra error inline y no dispara la llamada a Supabase.
+- [x] Sin sesión, `/`, `/kids` y `/kids/<slug>` redirigen a `/login?next=<destino>` y, tras loguearse, se vuelve a ese destino.
+- [x] Con sesión, entrar a `/login` redirige a `/` sin mostrar el formulario.
+- [x] "Cerrar sesión" borra la sesión; al escribir `/` a mano vuelve a redirigir a `/login`.
+- [x] El modal "Nueva publicación" se abre desde el sidebar en `/` y sigue inerte en `/kids`.
+- [x] El feed abre con "Buenas, Sebastián" y el avatar con la inicial "S".
+- [x] `pg_policies` muestra `users_select_own`; `GET /rest/v1/users?select=*` sin sesión devuelve `[]` y con el access token del staff devuelve exactamente su fila.
 - [ ] Un usuario de Auth sin fila en `public.users` (creado en el Dashboard para la prueba y borrado después) cierra sesión y cae en `/login`.
-- [ ] `supabase_list_migrations` muestra `add_users_select_policy` y el `.sql` local tiene la misma versión y el mismo SQL.
-- [ ] `supabase_get_advisors security` no reporta `WARN`/`ERROR` nuevos.
-- [ ] `npm run lint` y `npm run build` pasan; nada bajo `references/` ni `../07-DB-Schema` cambió.
+- [x] `supabase_list_migrations` muestra `add_users_select_policy` y el `.sql` local tiene la misma versión y el mismo SQL.
+- [x] `supabase_get_advisors security` no reporta ningún hallazgo `WARN`/`ERROR` atribuible a `users` ni a `users_select_own`; los 4 `WARN` del proyecto son preexistentes (`set_updated_at` de SPEC 08, dos de `rls_auto_enable` de plataforma ya documentados en SPEC 07, y `auth_leaked_password_protection` de la config del proyecto) y el único `INFO` es `rls_enabled_no_policy` sobre `daycares`.
+- [x] `npm run lint` y `npm run build` pasan; nada bajo `references/` ni `../07-DB-Schema` cambió.
 
 ## Decisiones tomadas y descartadas
 
