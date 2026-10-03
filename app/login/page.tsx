@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { LogoIcon } from "@/app/components/icons";
+import { LoginForm } from "./LoginForm";
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: PageProps<"/login">) {
+  const { next } = await searchParams;
+  const destination = typeof next === "string" ? next : "/";
+
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] bg-[#FBF4EC]">
       <div className="relative overflow-hidden flex flex-col justify-between bg-[linear-gradient(155deg,#F6A98E_0%,#F2937A_45%,#EC7E62_100%)] px-[60px] py-14 text-white">
@@ -40,37 +44,7 @@ export default function LoginPage() {
             Ingresá para ver el día de hoy.
           </p>
 
-          <div className="text-[12px] font-bold tracking-[.7px] text-[#94887B] mb-[8px]">
-            EMAIL
-          </div>
-          <input
-            type="email"
-            defaultValue="caro@opendaycare.com"
-            className="w-full px-4 py-[14px] rounded-[14px] border-[1.5px] border-[#EADFD0] bg-white text-[15px] text-[#3F362E] mb-[18px]"
-          />
-          <div className="text-[12px] font-bold tracking-[.7px] text-[#94887B] mb-[8px]">
-            CONTRASEÑA
-          </div>
-          <input
-            type="password"
-            placeholder="••••••••"
-            className="w-full px-4 py-[14px] rounded-[14px] border-[1.5px] border-[#EADFD0] bg-white text-[15px] text-[#3F362E] mb-[10px]"
-          />
-          <div className="text-right mb-5">
-            <Link
-              href="#"
-              className="text-[#C5503A] text-[13.5px] font-bold cursor-pointer"
-            >
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
-
-          <Link
-            href="/"
-            className="block text-center w-full py-[15px] rounded-[15px] bg-[linear-gradient(180deg,#F4977E,#EE8164)] text-white font-extrabold text-[16px] shadow-[0_10px_22px_-8px_rgba(238,129,100,.7)]"
-          >
-            Iniciar sesión
-          </Link>
+          <LoginForm next={destination} />
 
           <p className="text-center mt-6 mb-0 text-[#94887B] text-[14.5px]">
             ¿Te invitó la guardería?{" "}

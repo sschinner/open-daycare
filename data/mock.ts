@@ -43,13 +43,6 @@ export type Post =
   | (PostBase & { kind: "mood" })
   | (PostBase & { kind: "photo" });
 
-export const user = {
-  name: "Caro",
-  fullName: "Caro Giménez",
-  role: "Maestra · Soles",
-  initial: "C",
-};
-
 export const room: Room = {
   name: "Sala Soles",
   kidCount: 12,

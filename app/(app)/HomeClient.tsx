@@ -1,0 +1,70 @@
+"use client";
+
+import { useState } from "react";
+import { useComposer } from "@/app/components/AppShell";
+import { CreatePostModal } from "@/app/components/CreatePostModal";
+import { PostCard } from "@/app/components/PostCard";
+import { CameraIcon } from "@/app/components/icons";
+import { getFirstName, getInitial, useProfile } from "@/app/components/ProfileProvider";
+import { posts, room } from "@/data/mock";
+import type { Post } from "@/data/mock";
+
+export function HomeClient() {
+  const profile = useProfile();
+  const { isComposerOpen, openComposer, closeComposer } = useComposer();
+  const [extraPosts, setExtraPosts] = useState<Post[]>([]);
+
+  function handleSave(post: Post) {
+    setExtraPosts((prev) => [post, ...prev]);
+    closeComposer();
+  }
+
+  return (
+    <div className="max-w-[760px] w-full mx-auto pt-[34px] px-10 pb-20">
+      <div className="mb-6">
+        <div className="text-[12.5px] font-extrabold tracking-[.8px] text-[#D9583C] mb-1">
+          GUARDERÍA · {room.name.toUpperCase()}
+        </div>
+        <h1 className="font-display font-semibold text-[30px] m-0 text-[#3F362E]">
+          Buenas, {getFirstName(profile)}
+        </h1>
+        <p className="mt-[5px] text-[#94887B] text-[14.5px]">
+          {room.kidCount} niños · {room.dateLabel}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={openComposer}
+        className="flex items-center gap-[14px] w-full bg-[#FFFDF9] border border-[#ECE0D0] rounded-[18px] px-[18px] py-[14px] mb-6 shadow-[0_4px_14px_-10px_rgba(120,90,60,.4)] text-left"
+      >
+        <div className="w-10 h-10 rounded-full bg-[#F2937A] text-white font-display font-semibold text-[16px] flex items-center justify-center flex-none">
+          {getInitial(profile)}
+        </div>
+        <span className="flex-1 text-[#A89A8B] text-[15px]">
+          Compartí un momento…
+        </span>
+        <span className="w-[38px] h-[38px] rounded-xl bg-[#FBE3D8] text-[#E0654A] flex items-center justify-center">
+          <CameraIcon />
+        </span>
+      </button>
+
+      <div className="flex items-center gap-[14px] mb-[14px]">
+        <span className="text-[12.5px] font-extrabold tracking-[.8px] text-[#8A7C6D]">
+          PUBLICADO HOY
+        </span>
+        <span className="flex-1 h-px bg-[#E7DAC8]" />
+      </div>
+
+      <div className="flex flex-col gap-4">
+        {[...extraPosts, ...posts].map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
+
+      {isComposerOpen && (
+        <CreatePostModal onClose={closeComposer} onSave={handleSave} />
+      )}
+    </div>
+  );
+}
