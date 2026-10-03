@@ -1,4 +1,10 @@
-import { user, room } from "@/data/mock";
+"use client";
+
+import { usePathname } from "next/navigation";
+import { signOut } from "@/app/(app)/actions";
+import { room } from "@/data/mock";
+import type { Profile, UserRole } from "@/utils/supabase/dal";
+import { getInitial } from "./ProfileProvider";
 import {
   AccountIcon,
   BellIcon,
@@ -9,8 +15,6 @@ import {
   UsersIcon,
 } from "./icons";
 
-type SidebarActive = "feed" | "kids";
-
 const navItems: { label: string; icon: typeof HomeIcon; href: string; key: string }[] = [
   { label: "Feed", icon: HomeIcon, href: "/", key: "feed" },
   { label: "Niños", icon: UsersIcon, href: "/kids", key: "kids" },
@@ -18,13 +22,21 @@ const navItems: { label: string; icon: typeof HomeIcon; href: string; key: strin
   { label: "Mi cuenta", icon: AccountIcon, href: "#", key: "account" },
 ];
 
+const roleLabels: Record<UserRole, string> = {
+  staff: "Personal",
+  parent: "Familia",
+  admin: "Administración",
+};
+
 export function Sidebar({
-  active,
+  profile,
   onNewPost,
 }: {
-  active: SidebarActive;
+  profile: Profile;
   onNewPost?: () => void;
 }) {
+  const pathname = usePathname();
+
   return (
     <aside className="hidden lg:flex w-[248px] flex-none flex-col bg-[#FFFDF9] border-r border-[#ECE0D0] py-6 px-4 sticky top-0 h-screen">
       <a href="#" className="flex items-center gap-[11px] px-2 pt-1 pb-[22px]">
@@ -50,7 +62,8 @@ export function Sidebar({
 
       <nav className="flex flex-col gap-1 flex-1">
         {navItems.map(({ label, icon: Icon, href, key }) => {
-          const isActive = key === active;
+          const isActive =
+            key === "feed" ? pathname === "/" : pathname.startsWith(href);
           return (
             <a
               key={key}
@@ -71,21 +84,25 @@ export function Sidebar({
       <div className="border-t border-[#ECE0D0] pt-[14px] mt-[10px]">
         <div className="flex items-center gap-[11px] px-2 py-[6px]">
           <div className="w-[38px] h-[38px] rounded-full bg-[#F2937A] text-white font-display font-semibold text-[16px] flex items-center justify-center flex-none">
-            {user.initial}
+            {getInitial(profile)}
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-extrabold text-[14px] text-[#3F362E]">
-              {user.fullName}
+              {profile.full_name}
             </div>
-            <div className="text-[12px] text-[#A89A8B]">{user.role}</div>
+            <div className="text-[12px] text-[#A89A8B]">
+              {roleLabels[profile.role]} · {room.name}
+            </div>
           </div>
-          <a
-            href="/login"
-            title="Cerrar sesión"
-            className="flex-none w-8 h-8 rounded-[10px] bg-[#F6ECDF] text-[#94887B] flex items-center justify-center"
-          >
-            <LogoutIcon />
-          </a>
+          <form action={signOut}>
+            <button
+              type="submit"
+              title="Cerrar sesión"
+              className="flex-none w-8 h-8 rounded-[10px] bg-[#F6ECDF] text-[#94887B] flex items-center justify-center"
+            >
+              <LogoutIcon />
+            </button>
+          </form>
         </div>
       </div>
     </aside>

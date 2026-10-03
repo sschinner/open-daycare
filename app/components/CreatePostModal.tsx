@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, DragEvent, FormEvent } from "react";
 import { kids } from "@/data/kids";
-import { user } from "@/data/mock";
+import { getFirstName, getInitial, useProfile } from "./ProfileProvider";
 import type { Post, PostKind } from "@/data/mock";
 import { CloseIcon, PlusIcon } from "./icons";
 
@@ -95,6 +95,7 @@ function nowHHMM(): string {
 }
 
 export function CreatePostModal({ onClose, onSave }: CreatePostModalProps) {
+  const profile = useProfile();
   const [selectedKid, setSelectedKid] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<PostKind | null>(null);
   const [description, setDescription] = useState("");
@@ -190,7 +191,7 @@ export function CreatePostModal({ onClose, onSave }: CreatePostModalProps) {
 
     const post: Post = {
       id: Date.now(),
-      author: { name: user.name, initial: user.initial },
+      author: { name: getFirstName(profile), initial: getInitial(profile) },
       kind: selectedType as PostKind,
       time: nowHHMM(),
       audience,
